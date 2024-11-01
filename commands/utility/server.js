@@ -1,0 +1,12 @@
+const { SlashCommandBuilder } = require('discord.js');
+const { cooldown } = require('./ping');
+
+module.exports = {
+	category: 'utility',
+	data: new SlashCommandBuilder()
+		.setName('server')
+		.setDescription('Provides information about the server.'),
+	async execute(interaction) {
+		await interaction.reply(`This server is ${interaction.guild.name} and has ${interaction.guild.memberCount} members.`);
+	},
+};
