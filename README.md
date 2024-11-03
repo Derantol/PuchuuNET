@@ -1,4 +1,4 @@
-## PuchuuNET ##
+# PuchuuNET
 
 Launch Checklist
  Abilities:
