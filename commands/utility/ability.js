@@ -13,21 +13,17 @@ module.exports = {
 		const input = interaction.options.getString('ability', true);
 		const a1 = await interaction.client.database.findByPk(input);
 		if (a1) {
-			await interaction.reply('\`\`\`\nSearch input: ' + input + '\`\`\`\n\`\`\`\n' + ability.name + '\n\n' + ability.rules + '\`\`\`');
+			await interaction.reply('\`\`\`\nSearch input: ' + input + '\`\`\`\n\`\`\`\n' + a1.name + '\n\n' + a1.rules + '\`\`\`');
 		} else {
-			const seq = interaction.client.sequelize;
+			await interaction.reply('Search input: ' + input + '\nAbility not found!'); // stand in until search function is complete
+			/*const seq = interaction.client.sequelize;
 			const inputLowerCase = input.toLowerCase();
 			const a2 = await interaction.client.database.findAll({
 				where: {
 					name: seq.where(seq.fn('LOWER', seq.col('name')), 'LIKE', '%' + inputLowerCase + '%')
 				}
-			});
+			});*/
 			// TODO: construct string to send back that offers the things they might have meant to search for
-		}
-		if (ability === null) {
-			await interaction.reply('Search input: ' + input + '\nAbility not found!');
-		} else {
-			await interaction.reply('\`\`\`\nSearch input: ' + input + '\`\`\`\n\`\`\`\n' + ability.name + '\n\n' + ability.rules + '\`\`\`');
 		}
 	},
 };
