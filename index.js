@@ -1,15 +1,14 @@
 const fs = require('node:fs');
-const { parse } = require('csv-parse/sync');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const { Sequelize, DataTypes } = require('sequelize');
 const { data } = require('./commands/utility/ability');
 
-// This is where things operate through, I think
+// Creating the client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-// Experiment: anchoring database to client
+// Anchor database to client instance
 client.sequelize = new Sequelize({
 	dialect: 'sqlite',
 	storage: 'data/rules.sqlite'
@@ -20,6 +19,7 @@ client.database = client.sequelize.define(
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			primaryKey: true,
 		},
 		rules: {
 			type: DataTypes.TEXT,
@@ -31,16 +31,6 @@ client.database = client.sequelize.define(
 		timestamps: false,
 	},
 );
-const file = fs.readFileSync('./data/abilities.csv');
-const dataArray = parse(file, {
-	delimiter: '#',
-});
-for (const line of dataArray) {
-	const newAbility = client.database.create({
-		name: line[0],
-		rules: line[1],
-	});
-}
 
 // Generates a list of commands based on the files found in the /commands directory
 client.commands = new Collection();

@@ -11,13 +11,19 @@ module.exports = {
                 .setRequired(true)),
 	async execute(interaction) {
 		const input = interaction.options.getString('ability', true);
-		const inputLowerCase = input.toLowerCase();
-		const seq = interaction.client.sequelize;
-		const ability = await interaction.client.database.findOne({
-			where: {
-				name: seq.where(seq.fn('LOWER', seq.col('name')), 'LIKE', '%' + inputLowerCase + '%')
-			}
-		});
+		const a1 = await interaction.client.database.findByPk(input);
+		if (a1) {
+			await interaction.reply('\`\`\`\nSearch input: ' + input + '\`\`\`\n\`\`\`\n' + ability.name + '\n\n' + ability.rules + '\`\`\`');
+		} else {
+			const seq = interaction.client.sequelize;
+			const inputLowerCase = input.toLowerCase();
+			const a2 = await interaction.client.database.findAll({
+				where: {
+					name: seq.where(seq.fn('LOWER', seq.col('name')), 'LIKE', '%' + inputLowerCase + '%')
+				}
+			});
+			// TODO: construct string to send back that offers the things they might have meant to search for
+		}
 		if (ability === null) {
 			await interaction.reply('Search input: ' + input + '\nAbility not found!');
 		} else {
