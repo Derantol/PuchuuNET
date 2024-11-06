@@ -1,7 +1,7 @@
-const { Events, Collection, time } = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = {
-	name: Events.InteractionCreate,
+	name: Discord.Events.InteractionCreate,
 	async execute(interaction) {
 		if (!interaction.isChatInputCommand()) return;
 
@@ -15,7 +15,7 @@ module.exports = {
 		// check, set command cooldown, default 1
 		const { cooldowns } = interaction.client;
 		if (!cooldowns.has(command.data.name)) {
-			cooldowns.set(command.data.name, new Collection());
+			cooldowns.set(command.data.name, new Discord.Collection());
 		}
 
 		const now = Date.now();

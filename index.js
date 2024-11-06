@@ -1,15 +1,18 @@
 const fs = require('fs-extra');
-const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
-const { Sequelize, DataTypes } = require('sequelize');
-const { data } = require('./commands/utility/ability');
+const path = require('path');
+
+const Discord = require('discord.js');
+
+const seq = require('sequelize');
+
+const cfg = require('./config.json');
+
 
 // Creating the client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.Guilds] });
 
 // Anchor database to client instance
-client.sequelize = new Sequelize({
+client.sequelize = new seq.Sequelize({
 	dialect: 'sqlite',
 	storage: 'data/rules.sqlite'
 });
@@ -17,12 +20,12 @@ client.database = client.sequelize.define(
 	'rules',
 	{
 		name: {
-			type: DataTypes.STRING,
+			type: seq.DataTypes.STRING,
 			allowNull: false,
 			primaryKey: true,
 		},
 		rules: {
-			type: DataTypes.TEXT,
+			type: seq.DataTypes.TEXT,
 			allowNull: false,
 		}
 	},
@@ -33,12 +36,12 @@ client.database = client.sequelize.define(
 );
 
 // Generates a list of commands based on the files found in the /commands directory
-client.commands = new Collection();
+client.commands = new Discord.Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 // Keeps track of user cooldowns for each command
-client.cooldowns = new Collection();
+client.cooldowns = new Discord.Collection();
 for (const folder of commandFolders) { // does this once per folder in the /commands directory
 	const commandsPath = path.join(foldersPath, folder);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js')); // filters for only .js files
@@ -66,4 +69,4 @@ for (const file of eventFiles) {
 	}
 }
 
-client.login(token);
+client.login(cfg.token);

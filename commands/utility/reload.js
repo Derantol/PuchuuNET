@@ -1,9 +1,8 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { cooldown } = require('./ability');
+const Discord = require('discord.js');
 
 module.exports = {
 	category: 'utility',
-	data: new SlashCommandBuilder()
+	data: new Discord.SlashCommandBuilder()
 		.setName('reload')
 		.setDescription('Reloads a command.')
 		.addStringOption(option =>

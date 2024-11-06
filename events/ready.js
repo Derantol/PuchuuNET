@@ -1,7 +1,7 @@
-const { Events } = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = {
-	name: Events.ClientReady,
+	name: Discord.Events.ClientReady,
 	once: true,
 	execute(client) {
 		client.database.sync();

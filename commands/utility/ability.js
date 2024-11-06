@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = {
 	category: 'utility',
-	data: new SlashCommandBuilder()
+	data: new Discord.SlashCommandBuilder()
 		.setName('ability')
 		.setDescription('Get ability rules text!')
         .addStringOption(option =>
