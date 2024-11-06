@@ -1,7 +1,5 @@
 const fs = require('fs-extra');
-
 const Discord = require('discord.js');
-
 const csvp = require('csv-parse/sync');
 
 module.exports = {

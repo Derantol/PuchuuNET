@@ -1,8 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
-
 const Discord = require('discord.js');
-
 const cfg = require('./config.json');
 
 
